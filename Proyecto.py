@@ -48,3 +48,57 @@ class MatrixCalculator:
         # Marco para botones de operaciones
         operations_frame = ttk.Frame(root, padding=10, borderwidth=2, relief="groove")
         operations_frame.pack(pady=10, padx=10, fill='x')
+
+        # Botones para las operaciones 
+        gauss_button = ttk.Button(operations_frame, text="Método Gauss-Jordan", command=self.gauss_jordan)
+        gauss_button.grid(row=0, column=0, padx=10, pady=5)
+
+        cramer_button = ttk.Button(operations_frame, text="Regla de Cramer", command=self.cramer)
+        cramer_button.grid(row=0, column=1, padx=10, pady=5)
+
+        multiply_button = ttk.Button(operations_frame, text="Multiplicación de Matrices", command=self.multiply)
+        multiply_button.grid(row=0, column=2, padx=10, pady=5)
+
+        inverse_button = ttk.Button(operations_frame, text="Calcular Inversa", command=self.inverse)
+        inverse_button.grid(row=0, column=3, padx=10, pady=5)
+
+        # Botón para graficar ecuaciones
+        plot_button = ttk.Button(operations_frame, text="Graficar Ecuaciones", command=self.plot_equations)
+        plot_button.grid(row=0, column=4, padx=10, pady=5)
+
+        # Marco para resultados
+        result_frame = ttk.Frame(root, padding=10, borderwidth=2, relief="groove")
+        result_frame.pack(pady=10, padx=10, fill='both', expand=True)
+
+        result_label = ttk.Label(result_frame, text="Resultados:", style='Header.TLabel', background="#282a36")
+        result_label.pack(anchor='w')
+
+        self.result_text = tk.Text(result_frame, height=10, wrap='word', bg="#44475a", fg="White", font=('Helvetica', 17), borderwidth=2)
+        self.result_text.pack(fill='both', expand=True)
+
+        # Variables que sirven para almacenar las entradas de las matrices 
+        self.matrix_entries = []
+        self.second_matrix_entries = []
+        self.cramer_entries = []  # Entrada para el método de Cramer
+
+    # Método para generar matrices según el tamaño que se especifique
+    def generate_matrix(self):
+        # limpia el marco de las matrices anteriores 
+        for widget in self.matrix_frame.winfo_children():
+            widget.destroy()
+        self.matrix_entries = []
+        self.second_matrix_entries = []
+        self.cramer_entries = []
+
+        try:
+            size = int(self.size_entry.get())
+            if size < 2 or size > 5:
+                messagebox.showerror("Error", "Por favor, ingrese un tamaño entre 2 y 5.")
+                return
+        except ValueError:
+            messagebox.showerror("Error", "Por favor, ingrese un número válido para el tamaño de la matriz.")
+            return
+
+        # Crea pestañas para las diferentes matrices 
+        self.notebook = ttk.Notebook(self.matrix_frame)
+        self.notebook.pack(fill='both', expand=True)
