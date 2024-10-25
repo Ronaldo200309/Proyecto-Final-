@@ -445,3 +445,50 @@ def matematica_discreta():
     # Variables de selección
     comb_tipo = tk.IntVar(value=1)
     perm_tipo = tk.IntVar(value=1)
+
+# Opciones de combinaciones
+    comb_frame = ttk.Frame(discreta_window, padding=10, borderwidth=2, relief="groove")
+    comb_frame.pack(pady=10, padx=10, fill='x')
+
+    label_comb = ttk.Label(comb_frame, text="Combinaciones:", style='TLabel')
+    label_comb.grid(row=0, column=0, padx=5, pady=5, sticky='W')
+
+    radio_comb_sin_rep = ttk.Radiobutton(comb_frame, text="Sin repetición", variable=comb_tipo, value=1)
+    radio_comb_sin_rep.grid(row=0, column=1, padx=5, pady=5, sticky='W')
+
+    radio_comb_con_rep = ttk.Radiobutton(comb_frame, text="Con repetición", variable=comb_tipo, value=2)
+    radio_comb_con_rep.grid(row=0, column=2, padx=5, pady=5, sticky='W')
+
+    button_comb = ttk.Button(comb_frame, text="Calcular Combinaciones", command=calcular_combinaciones)
+    button_comb.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
+
+    # Opciones de permutaciones
+    perm_frame = ttk.Frame(discreta_window, padding=10, borderwidth=2, relief="groove")
+    perm_frame.pack(pady=10, padx=10, fill='x')
+
+    label_perm = ttk.Label(perm_frame, text="Permutaciones:", style='TLabel')
+    label_perm.grid(row=0, column=0, padx=5, pady=5, sticky='W')
+
+    radio_perm_sin_rep = ttk.Radiobutton(perm_frame, text="Sin repetición", variable=perm_tipo, value=1)
+    radio_perm_sin_rep.grid(row=0, column=1, padx=5, pady=5, sticky='W')
+
+    radio_perm_con_rep = ttk.Radiobutton(perm_frame, text="Con repetición", variable=perm_tipo, value=2)
+    radio_perm_con_rep.grid(row=0, column=2, padx=5, pady=5, sticky='W')
+
+    button_perm = ttk.Button(perm_frame, text="Calcular Permutaciones", command=calcular_permutaciones)
+    button_perm.grid(row=1, column=0, columnspan=3, padx=10, pady=10)
+
+    # Resultado
+    result_frame = ttk.Frame(discreta_window, padding=10, borderwidth=2, relief="groove")
+    result_frame.pack(pady=10, padx=10, fill='both', expand=True)
+
+    result_label = ttk.Label(result_frame, text="Resultados:", style='Header.TLabel')
+    result_label.pack(anchor='w')
+
+    result_text = tk.Text(result_frame, height=10, wrap='word', bg="#44475a", fg="white", font=('Helvetica', 18), borderwidth=2)
+    result_text.pack(fill='both', expand=True)
+
+# Función para iniciar la calculadora de Álgebra Lineal
+def algebra_lineal():
+    algebra_window = tk.Toplevel()
+    calculator = MatrixCalculator(algebra_window)
