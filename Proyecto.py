@@ -348,3 +348,60 @@ class MatrixCalculator:
             self.result_text.insert(tk.END, "".join(steps))
         except np.linalg.LinAlgError:
             messagebox.showerror("Error", "La matriz no es invertible.")
+
+# Funciones de Matemática Discreta
+def factorial(n):
+    return math.factorial(n)
+
+def combinaciones(n, r):
+    return int(factorial(n) / (factorial(r) * factorial(n - r)))
+
+def combinaciones_con_repeticion(n, r):
+    return int(factorial(n + r - 1) / (factorial(r) * factorial(n - 1)))
+
+def permutaciones(n, r):
+    return int(factorial(n) / factorial(n - r))
+
+def permutaciones_con_repeticion(n, r):
+    return int(n ** r)
+
+# Funciones de evento para botones
+def calcular_combinaciones():
+    try:
+        n = int(entry_n.get())
+        r = int(entry_r.get())
+        if comb_tipo.get() == 1:  # Sin repetición
+            if n >= r:
+                resultado = combinaciones(n, r)
+                result_text.delete(1.0, tk.END)
+                result_text.insert(tk.END, f"Combinaciones sin repetición: {resultado}\n")
+            else:
+                result_text.delete(1.0, tk.END)
+                result_text.insert(tk.END, "Error: n debe ser mayor o igual a r.")
+        else:  # Con repetición
+            resultado = combinaciones_con_repeticion(n, r)
+            result_text.delete(1.0, tk.END)
+            result_text.insert(tk.END, f"Combinaciones con repetición: {resultado}\n")
+    except ValueError:
+        result_text.delete(1.0, tk.END)
+        result_text.insert(tk.END, "Error: Ingresa valores válidos para n y r.")
+
+def calcular_permutaciones():
+    try:
+        n = int(entry_n.get())
+        r = int(entry_r.get())
+        if perm_tipo.get() == 1:  # Sin repetición
+            if n >= r:
+                resultado = permutaciones(n, r)
+                result_text.delete(1.0, tk.END)
+                result_text.insert(tk.END, f"Permutaciones sin repetición: {resultado}\n")
+            else:
+                result_text.delete(1.0, tk.END)
+                result_text.insert(tk.END, "Error: n debe ser mayor o igual a r.")
+        else:  # Con repetición
+            resultado = permutaciones_con_repeticion(n, r)
+            result_text.delete(1.0, tk.END)
+            result_text.insert(tk.END, f"Permutaciones con repetición: {resultado}\n")
+    except ValueError:
+        result_text.delete(1.0, tk.END)
+        result_text.insert(tk.END, "Error: Ingresa valores válidos para n y r.")
