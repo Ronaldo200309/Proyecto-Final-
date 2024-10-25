@@ -205,3 +205,51 @@ class MatrixCalculator:
             plt.show()
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+            # Método de Gauss-Jordan mejorado para mostrar el procedimiento completo
+    def gauss_jordan(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix = self.get_matrix(self.matrix_entries)
+        if matrix is None:
+            return
+        try:
+            n = matrix.shape[0]
+            augmented = np.hstack((matrix, np.eye(n)))  # Matriz aumentada (A | I)
+            steps = []
+
+            for i in range(n):
+                if np.isclose(augmented[i][i], 0):
+                # Intercambiar con una fila que tenga un valor distinto de cero en la columna i
+                    for j in range(i + 1, n):
+                        if not np.isclose(augmented[j][i], 0):
+                            augmented[[i, j]] = augmented[[j, i]]
+                            steps.append(f"Intercambio de fila {i + 1} con fila {j + 1}")
+                            break
+                    else:
+                        self.result_text.insert(tk.END, "El sistema no tiene solución o tiene infinitas soluciones.\n")
+                        return
+
+                pivot = augmented[i][i]
+                augmented[i] = augmented[i] / pivot
+                steps.append(f"Dividir fila {i + 1} por {pivot:.3f} para hacer el pivote igual a 1")
+
+                for j in range(n):
+                    if j != i:
+                        factor = augmented[j][i]
+                        augmented[j] -= factor * augmented[i]
+                        steps.append(f"Restar {factor:.3f} * fila {i + 1} de fila {j + 1}")
+
+        # Verificar si la matriz tiene una única solución
+            if np.all(np.isclose(augmented[:, :-n], np.eye(n))):  # Si la matriz es la identidad
+                self.result_text.insert(tk.END, "El sistema tiene solución única:\n")
+                solutions = augmented[:, -n:]
+                for i, sol in enumerate(solutions):
+                    self.result_text.insert(tk.END, f"x{i + 1} = {sol[0]:.3f}\n")
+            else:
+                 self.result_text.insert(tk.END, "El sistema no tiene solución o tiene infinitas soluciones.\n")
+
+            self.result_text.insert(tk.END, "\nMatriz final después de Gauss-Jordan:\n")
+            self.result_text.insert(tk.END, np.round(augmented, 3))  # Imprimir la matriz final
+
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
