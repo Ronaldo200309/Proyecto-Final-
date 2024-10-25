@@ -805,3 +805,30 @@ def algoritmos():
     algoritmos_window = tk.Toplevel()
     calculator = MatrixCalculator(algoritmos_window)
     
+# Crear la ventana principal
+root = tk.Tk()
+root.title("Menú de Temas")
+root.geometry("600x400")
+
+root.configure(bg="#2C3E50")
+
+# Estilo de la etiqueta de título
+titulo_estilo = {
+        "font": ("Helvetica", 24, "bold"),
+        "bg": "#2C3E50",
+        "fg": "#ECF0F1"  # Color de texto claro para contrastar el fondo oscuro
+    }
+
+label_titulo = tk.Label(root, text="Selecciona una Calculadora", **titulo_estilo)
+label_titulo.pack(pady=20)
+
+btn_algebra = tk.Button(root, text="Álgebra Lineal", command=algebra_lineal, width=30, height=2,)
+btn_matematica = tk.Button(root, text="Matemática Discreta", command=matematica_discreta, width=30, height=2)
+btn_algoritmos = tk.Button(root, text="Algoritmos", command=algoritmos, width=30, height=2)
+
+
+btn_algebra.pack(pady=20)
+btn_matematica.pack(pady=20)
+btn_algoritmos.pack(pady=20)
+
+root.mainloop()
