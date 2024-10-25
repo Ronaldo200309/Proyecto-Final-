@@ -168,3 +168,40 @@ class MatrixCalculator:
             messagebox.showerror("Error", "Por favor, ingrese solo números en las matrices.")
             return None
         
+        # Nueva función para graficar ecuaciones en 3D
+    def plot_equations(self):
+        matrix = self.get_matrix(self.cramer_entries) # Usar la matriz para Cramer
+        if matrix is None:
+            return
+
+        try:
+            # Extraer los coeficientes y términos independientes
+            n = matrix.shape[0]
+            A = matrix[:, :-1]  # Coeficientes
+            b = matrix[:, -1]  # Términos independientes
+
+            # Comprobar si se trata de un sistema 3x3
+            if n != 3 or A.shape[1] != 3:
+                messagebox.showerror("Error", "Solo se pueden graficar sistemas 3x3 en 3D.")
+                return
+
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+
+            # Generar los puntos para X y Y
+            x = np.linspace(-10, 10, 400)
+            y = np.linspace(-10, 10, 400)
+            X, Y = np.meshgrid(x, y)
+
+            # Calcular Z para cada ecuación
+            for i in range(n):
+                Z = (b[i] - A[i][0] * X - A[i][1] * Y) / A[i][2]
+                ax.plot_surface(X, Y, Z, alpha=0.5, label=f"Ecuación {i+1}")
+
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            ax.set_zlabel('Z')
+            plt.title("Gráfica de las Ecuaciones en 3D")
+            plt.show()
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
