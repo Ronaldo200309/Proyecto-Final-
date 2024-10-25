@@ -405,3 +405,43 @@ def calcular_permutaciones():
     except ValueError:
         result_text.delete(1.0, tk.END)
         result_text.insert(tk.END, "Error: Ingresa valores válidos para n y r.")
+        
+# Función para iniciar la calculadora de Matemática Discreta
+def matematica_discreta():
+    discreta_window = tk.Toplevel()
+    discreta_window.title("Calculadora de Combinaciones y Permutaciones")
+    discreta_window.geometry("600x400")
+    discreta_window.configure(bg="#282a36")
+
+    # Estilo
+    style = ttk.Style()
+    style.theme_use('clam')
+    style.configure('TButton', font=('Helvetica', 10, 'bold'), padding=10, background='#6272a4')
+    style.map("TButton", background=[('active', '#44475a')])
+    style.configure('TLabel', font=('Helvetica', 10))
+    style.configure('Header.TLabel', font=('Helvetica', 14, 'bold'))
+    style.configure('TFrame', background='#282a36')
+
+    # Header
+    header = ttk.Label(discreta_window, text="Calculadora de Combinaciones y Permutaciones", style='Header.TLabel', background="#f0f0f0")
+    header.pack(pady=10)
+
+    # Marco para valores de n y r
+    input_frame = ttk.Frame(discreta_window, padding=10, borderwidth=2, relief="groove")
+    input_frame.pack(pady=10, padx=10, fill='x')
+
+    global entry_n, entry_r, comb_tipo, perm_tipo, result_text
+
+    label_n = ttk.Label(input_frame, text="Valor de n:", style='TLabel')
+    label_n.grid(row=0, column=0, padx=5, pady=5, sticky='W')
+    entry_n = ttk.Entry(input_frame, width=5)
+    entry_n.grid(row=0, column=1, padx=5, pady=5, sticky='W')
+
+    label_r = ttk.Label(input_frame, text="Valor de r:", style='TLabel')
+    label_r.grid(row=1, column=0, padx=5, pady=5, sticky='W')
+    entry_r = ttk.Entry(input_frame, width=5)
+    entry_r.grid(row=1, column=1, padx=5, pady=5, sticky='W')
+
+    # Variables de selección
+    comb_tipo = tk.IntVar(value=1)
+    perm_tipo = tk.IntVar(value=1)
