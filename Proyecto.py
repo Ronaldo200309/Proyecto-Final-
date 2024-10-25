@@ -611,3 +611,34 @@ def algoritmos():
                 entry.grid(row=i, column=j, padx=2, pady=2)
                 row.append(entry)
             self.second_matrix_entries.append(row)
+
+        # Matriz para Cramer (n x (n+1))
+        self.tab3 = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab3, text='Matriz Cramer')
+
+        ttk.Label(self.tab3, text="Ingrese los coeficientes y términos independientes:").pack(pady=5)
+
+        matrix_cramer_frame = ttk.Frame(self.tab3)
+        matrix_cramer_frame.pack()
+
+        for i in range(size):
+            row = []
+            for j in range(size + 1):  # Matriz extendida (n x (n+1))
+                entry = ttk.Entry(matrix_cramer_frame, width=5, justify='center')
+                entry.grid(row=i, column=j, padx=2, pady=2)
+                row.append(entry)
+            self.cramer_entries.append(row)
+
+    def get_matrix(self, entries):
+        matrix = []
+        try:
+            for row in entries:
+                matrix_row = []
+                for entry in row:
+                    value = float(entry.get())
+                    matrix_row.append(value)
+                matrix.append(matrix_row)
+            return np.array(matrix)
+        except ValueError:
+            messagebox.showerror("Error", "Por favor, ingrese solo números en las matrices.")
+            return None
