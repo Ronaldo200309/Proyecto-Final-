@@ -642,3 +642,56 @@ def algoritmos():
         except ValueError:
             messagebox.showerror("Error", "Por favor, ingrese solo números en las matrices.")
             return None
+
+# Método de Gauss-Jordan
+    def gauss_jordan(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix = self.get_matrix(self.matrix_entries)
+        if matrix is None:
+            return
+        try:
+            n = matrix.shape[0]
+            augmented = np.hstack((matrix, np.identity(n)))
+            steps = []
+
+            for i in range(n):
+                # Verificar si el pivote es muy cercano a 0 (para evitar errores de comparación con matrices)
+                if np.isclose(augmented[i][i], 0):
+                    for j in range(i + 1, n):
+                        # Intercambiar filas si hay una que no tenga un pivote cercano a 0
+                        if not np.isclose(augmented[j][i], 0):
+                            augmented[[i, j]] = augmented[[j, i]]
+                            steps.append(f"Intercambio de fila {i + 1} con fila {j + 1}")
+                            break
+                    else:
+                        raise ValueError("La matriz no es invertible o tiene soluciones infinitas.")
+
+                # Normalizar la fila pivote
+                pivot = augmented[i][i]
+                augmented[i] = augmented[i] / pivot
+                steps.append(f"Dividir fila {i + 1} por {pivot:.3f} para hacer el pivote igual a 1")
+
+                # Hacer que los demás elementos en la columna sean 0
+                for j in range(n):
+                    if j != i:
+                        factor = augmented[j][i]
+                        augmented[j] = augmented[j] - factor * augmented[i]
+                        steps.append(f"Restar {factor:.3f} * fila {i + 1} de fila {j + 1}")
+
+            result = augmented[:, :n] 
+            result = np.where(np.isclose(result, 0), 0, result)  # Redondear valores cercanos a 0
+            self.result_text.insert(tk.END, "Proceso de Gauss-Jordan:\n")
+            for step in steps:
+                self.result_text.insert(tk.END, step + "\n")
+
+            # Determinar el tipo de solución
+            det = np.linalg.det(matrix)
+            if np.isclose(det, 0):
+                self.result_text.insert(tk.END, "\nLa matriz no tiene solución única.\n")
+            else:
+                self.result_text.insert(tk.END, "\nLa matriz tiene solución única.\n")
+
+            self.result_text.insert(tk.END, "\nMatriz resultante (Gauss-Jordan):\n")
+            self.result_text.insert(tk.END, np.round(result, 3))
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
