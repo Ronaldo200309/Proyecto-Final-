@@ -558,3 +558,56 @@ def algoritmos():
         self.matrix_entries = []
         self.second_matrix_entries = []
         self.cramer_entries = []  # Entrada para el método de Cramer
+
+    def generate_matrix(self):
+        for widget in self.matrix_frame.winfo_children():
+            widget.destroy()
+        self.matrix_entries = []
+        self.second_matrix_entries = []
+        self.cramer_entries = []
+
+        try:
+            size = int(self.size_entry.get())
+            if size < 2 or size > 5:
+                messagebox.showerror("Error", "Por favor, ingrese un tamaño entre 2 y 5.")
+                return
+        except ValueError:
+            messagebox.showerror("Error", "Por favor, ingrese un número válido para el tamaño de la matriz.")
+            return
+
+        self.notebook = ttk.Notebook(self.matrix_frame)
+        self.notebook.pack(fill='both', expand=True)
+
+        # Matriz A
+        self.tab1 = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab1, text='Matriz A')
+
+        ttk.Label(self.tab1, text="Ingrese los elementos de la Matriz A:").pack(pady=5)
+
+        matrix_a_frame = ttk.Frame(self.tab1)
+        matrix_a_frame.pack()
+
+        for i in range(size):
+            row = []
+            for j in range(size):
+                entry = ttk.Entry(matrix_a_frame, width=5, justify='center')
+                entry.grid(row=i, column=j, padx=2, pady=2)
+                row.append(entry)
+            self.matrix_entries.append(row)
+
+        # Matriz B
+        self.tab2 = ttk.Frame(self.notebook)
+        self.notebook.add(self.tab2, text='Matriz B')
+
+        ttk.Label(self.tab2, text="Ingrese los elementos de la Matriz B:").pack(pady=5)
+
+        matrix_b_frame = ttk.Frame(self.tab2)
+        matrix_b_frame.pack()
+
+        for i in range(size):
+            row = []
+            for j in range(size):
+                entry = ttk.Entry(matrix_b_frame, width=5, justify='center')
+                entry.grid(row=i, column=j, padx=2, pady=2)
+                row.append(entry)
+            self.second_matrix_entries.append(row)
