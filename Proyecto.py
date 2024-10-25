@@ -771,3 +771,37 @@ def algoritmos():
             self.result_text.insert(tk.END, np.round(result, 3))
         except ValueError:
             messagebox.showerror("Error", "Las matrices no son compatibles para la multiplicación.")
+
+# Método de inversa
+    def inverse(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix = self.get_matrix(self.matrix_entries)
+        if matrix is None:
+            return
+        try:
+            inv_matrix = np.linalg.inv(matrix)
+            steps = ["Cálculo de la Inversa:\n"]
+            det_matrix = np.linalg.det(matrix)
+
+            steps.append(f"Determinante de la matriz: {det_matrix:.3f}\n")
+            if det_matrix == 0:
+                steps.append("La matriz no es invertible.")
+            else:
+                for i in range(matrix.shape[0]):
+                    for j in range(matrix.shape[1]):
+                        minor = np.delete(np.delete(matrix, i, axis=0), j, axis=1)
+                        cofactor = ((-1) ** (i + j)) * np.linalg.det(minor)
+                        steps.append(f"Cofactor C[{i+1},{j+1}] = {cofactor:.3f}\n")
+
+                steps.append("\nMatriz Inversa:\n")
+                for row in inv_matrix:
+                    steps.append(" | ".join(f"{value:.3f}" for value in row) + "\n")
+
+            self.result_text.insert(tk.END, "".join(steps))
+        except np.linalg.LinAlgError:
+            messagebox.showerror("Error", "La matriz no es invertible.")
+
+def algoritmos():
+    algoritmos_window = tk.Toplevel()
+    calculator = MatrixCalculator(algoritmos_window)
+    
