@@ -293,3 +293,58 @@ class MatrixCalculator:
                 self.result_text.insert(tk.END, f"x{i + 1} = {sol:.3f}\n")
         except Exception as e:
             messagebox.showerror("Error", str(e))
+# Método de multiplicación
+    def multiply(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix_a = self.get_matrix(self.matrix_entries)
+        matrix_b = self.get_matrix(self.second_matrix_entries)
+        if matrix_a is None or matrix_b is None:
+            return
+        try:
+            result = np.dot(matrix_a, matrix_b)
+            steps = []
+            steps.append("Multiplicación de matrices:\n")
+            for i in range(matrix_a.shape[0]):
+                for j in range(matrix_b.shape[1]):
+                    sum_product = 0
+                    for k in range(matrix_a.shape[1]):
+                        product = matrix_a[i][k] * matrix_b[k][j]
+                        sum_product += product
+                        steps.append(f"{matrix_a[i][k]} * {matrix_b[k][j]} (Fila {i+1}, Columna {j+1})")
+                    steps.append(f"Suma: {sum_product}\n")
+            self.result_text.insert(tk.END, "Proceso de Multiplicación de Matrices:\n")
+            for step in steps:
+                self.result_text.insert(tk.END, step)
+            self.result_text.insert(tk.END, "\nResultado de la multiplicación:\n")
+            self.result_text.insert(tk.END, np.round(result, 3))
+        except ValueError:
+            messagebox.showerror("Error", "Las matrices no son compatibles para la multiplicación.")
+
+    # Método de inversa
+    def inverse(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix = self.get_matrix(self.matrix_entries)
+        if matrix is None:
+            return
+        try:
+            inv_matrix = np.linalg.inv(matrix)
+            steps = ["Cálculo de la Inversa:\n"]
+            det_matrix = np.linalg.det(matrix)
+
+            steps.append(f"Determinante de la matriz: {det_matrix:.3f}\n")
+            if det_matrix == 0:
+                steps.append("La matriz no es invertible.")
+            else:
+                for i in range(matrix.shape[0]):
+                    for j in range(matrix.shape[1]):
+                        minor = np.delete(np.delete(matrix, i, axis=0), j, axis=1)
+                        cofactor = ((-1) ** (i + j)) * np.linalg.det(minor)
+                        steps.append(f"Cofactor C[{i+1},{j+1}] = {cofactor:.3f}\n")
+
+                steps.append("\nMatriz Inversa:\n")
+                for row in inv_matrix:
+                    steps.append(" | ".join(f"{value:.3f}" for value in row) + "\n")
+
+            self.result_text.insert(tk.END, "".join(steps))
+        except np.linalg.LinAlgError:
+            messagebox.showerror("Error", "La matriz no es invertible.")
