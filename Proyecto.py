@@ -695,3 +695,52 @@ def algoritmos():
             self.result_text.insert(tk.END, np.round(result, 3))
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+             # Método de Cramer
+    def cramer(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix = self.get_matrix(self.cramer_entries)  # Usar la nueva matriz para Cramer
+        if matrix is None:
+            return
+        
+        try:
+            n = matrix.shape[0]
+            m = matrix.shape[1]
+
+            if m != n + 1:  # Verifica que la matriz sea (n x (n + 1))
+                raise ValueError("La matriz debe ser de tamaño n x (n + 1).")
+
+            A = matrix[:, :-1]  # Coeficientes
+            b = matrix[:, -1]  # Términos independientes
+
+            det_A = np.linalg.det(A)
+            if np.isclose(det_A, 0):
+                raise ValueError("La matriz de coeficientes no es invertible o tiene infinitas soluciones.")
+
+            steps = []
+            solutions = []
+
+            # Calcular determinantes y soluciones
+            for i in range(n):
+                Ai = np.copy(A)
+                Ai[:, i] = b
+                det_Ai = np.linalg.det(Ai)
+                x_i = det_Ai / det_A
+                solutions.append(x_i)
+                steps.append(f"Det(A{i + 1}) = {det_Ai:.3f}, x{i + 1} = {det_Ai:.3f} / {det_A:.3f} = {x_i:.3f}")
+
+            # Mostrar pasos y soluciones
+            self.result_text.insert(tk.END, "Proceso de la Regla de Cramer:\n")
+            for step in steps:
+                self.result_text.insert(tk.END, step + "\n")
+
+            # Verificar el tipo de solución
+            if np.isclose(det_A, 0):
+                self.result_text.insert(tk.END, "\nEl sistema tiene infinitas soluciones o no tiene solución.\n")
+            else:
+                self.result_text.insert(tk.END, "\nSolución única:\n")
+                for i, sol in enumerate(solutions):
+                    self.result_text.insert(tk.END, f"x{i + 1} = {sol:.3f}\n")
+
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
