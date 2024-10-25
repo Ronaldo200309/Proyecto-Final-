@@ -744,3 +744,30 @@ def algoritmos():
 
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+# Método de multiplicación
+    def multiply(self):
+        self.result_text.delete(1.0, tk.END)
+        matrix_a = self.get_matrix(self.matrix_entries)
+        matrix_b = self.get_matrix(self.second_matrix_entries)
+        if matrix_a is None or matrix_b is None:
+            return
+        try:
+            result = np.dot(matrix_a, matrix_b)
+            steps = []
+            steps.append("Multiplicación de matrices:\n")
+            for i in range(matrix_a.shape[0]):
+                for j in range(matrix_b.shape[1]):
+                    sum_product = 0
+                    for k in range(matrix_a.shape[1]):
+                        product = matrix_a[i][k] * matrix_b[k][j]
+                        sum_product += product
+                        steps.append(f"{matrix_a[i][k]} * {matrix_b[k][j]} (Fila {i+1}, Columna {j+1})")
+                    steps.append(f"Suma: {sum_product}\n")
+            self.result_text.insert(tk.END, "Proceso de Multiplicación de Matrices:\n")
+            for step in steps:
+                self.result_text.insert(tk.END, step)
+            self.result_text.insert(tk.END, "\nResultado de la multiplicación:\n")
+            self.result_text.insert(tk.END, np.round(result, 3))
+        except ValueError:
+            messagebox.showerror("Error", "Las matrices no son compatibles para la multiplicación.")
