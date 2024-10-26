@@ -2,8 +2,11 @@
 
 ## Integrantes: 
 Ronaldo Emanuel Najera Argueta
+
 Lesly Carolina Méndez Martínez 
+
 Darvin Aroldo Marroquín y Marroquín
+
 Anibal Alejandri Trigueros Pinto
 
 ## Funcionamiento e instrucciones para ejecutar el programa:
