@@ -1,5 +1,11 @@
 # Proyecto Final Algoritmos 2024 
 
+## Integrantes: 
+Ronaldo Emanuel Najera Argueta
+Lesly Carolina Méndez Martínez 
+Darvin Aroldo Marroquín y Marroquín
+Anibal Alejandri Trigueros Pinto
+
 ## Funcionamiento e instrucciones para ejecutar el programa:
 
 Este proyecto se trata de un programa que calcula matrices por los diferentes métodos gauss jordan y cramer, también realiza multiplicación e inversa de matrices. Implementamos diferentes funciones para que este proyecto no solo calcule matrices, sino que también realiza las combinaciones y permutaciones de la clase de Matemática Discreta, de los cuales las procesa tanto las combinaciones con y sin repetición, como las permutaciones con y sin repetición. 
